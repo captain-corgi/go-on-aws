@@ -1,6 +1,6 @@
 module github.com/captain-corgi/go-on-aws
 
-go 1.17
+go 1.19
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.16.14
