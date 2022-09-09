@@ -14,9 +14,12 @@ import (
 var (
 	MyTopic  = aws.String("go-topic")
 	MyBucket = aws.String("go-bucket")
+
+	s3Client  *s3.Client
+	snsClient *sns.Client
 )
 
-func main() {
+func init() {
 	// Load the Shared AWS Configuration (~/.aws/config)
 	cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
@@ -24,12 +27,15 @@ func main() {
 	}
 
 	// Create an Amazon S3 service client
-	s3Client := s3.NewFromConfig(cfg)
+	s3Client = s3.NewFromConfig(cfg)
+	// Create an Amazon SNS service client
+	snsClient = sns.NewFromConfig(cfg)
+}
+
+func main() {
 	// Get the first page of results for ListObjectsV2 for a bucket
 	GetBucketExample(s3Client)
 
-	// Create an Amazon SNS service client
-	snsClient := sns.NewFromConfig(cfg)
 	// Get the topics
 	CreateTopicExample(snsClient)
 }
